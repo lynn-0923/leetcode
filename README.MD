@@ -187,3 +187,99 @@ class Solution {
     }
 }
 ```
+### LeetCode1-两数之和
+给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+
+你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。
+
+示例:
+给定 nums = [2, 7, 11, 15], target = 9
+
+因为 nums[0] + nums[1] = 2 + 7 = 9
+所以返回 [0, 1]
+```java
+class Solution {
+    public static int[] twoSum(int[] nums, int target) {
+        //方式一
+//        HashMap<Integer, Integer> map = new HashMap<>();
+//        for (int i = 0; i < nums.length; i++) {
+//            map.put(nums[i], i);
+//        }
+//        for (int i = 0; i < nums.length; i++) {
+//            int val = target - nums[i];
+//            if (map.containsKey(val) && map.get(val) != i){
+//               return new int[]{i,map.get(val)};
+//            }
+//        }
+//       return null;
+        //方式二：
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int val = target - nums[i];
+            if (map.containsKey(val)) {
+                return new int[]{map.get(val), i};
+            } else {
+                map.put(nums[i], i);
+            }
+        }
+        return null;
+    }
+}
+```
+### LeetCode15-三数之和
+给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，
+使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
+
+注意：答案中不可以包含重复的三元组。
+
+示例：
+给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+
+满足要求的三元组集合为：
+[
+[-1, 0, 1],
+[-1, -1, 2]
+]
+```java
+class Solution {
+    public static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length < 3) {
+            return result;
+        }
+        Arrays.sort(nums);
+        int length = nums.length;
+        for (int i = 0; i < length; i++) {
+            if (nums[i] > 0){
+                break;
+            }
+            //去重
+            if (i > 0 && nums[i] == nums[i - 1]){
+                continue;
+            }
+            int left = i + 1;
+            int right = length - 1;
+            while (left < right){
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == 0){
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    //去重
+                    while (left < right && nums[left] == nums[left + 1]){
+                        left++;
+                    }
+                    while (left < right && nums[right] == nums[right - 1]){
+                        right--;
+                    }
+                    left++;
+                    right--;
+                }else if (sum < 0){
+                    left++;
+                } else if (sum > 0){
+                    right--;
+                }
+            }
+        }
+        return result;
+    }
+}
+```
