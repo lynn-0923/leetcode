@@ -19,9 +19,6 @@ class ListNode {
 }
 
 
-/**
- * @author wu
- */
 public class Solution {
     public ListNode detectCycle(ListNode head) {
         //方式一:HashSet
